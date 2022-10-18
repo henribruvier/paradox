@@ -14,7 +14,7 @@ function defineNextConfig(config) {
   return config;
 }
 
-export default withTM(["@acme/api", "@acme/db"])(
+export default withTM(["@paradox/api", "@paradox/db"])(
   defineNextConfig({
     reactStrictMode: true,
     swcMinify: true,
