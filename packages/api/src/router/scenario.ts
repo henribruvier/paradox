@@ -5,7 +5,7 @@ export const scenarioRouter = t.router({
 	all: t.procedure.query(({ctx}) => {
 		return ctx.prisma.scenario.findMany();
 	}),
-	byId: t.procedure.input(z.string()).query(({ctx, input}) => {
+	byId: t.procedure.input(z.number()).query(({ctx, input}) => {
 		return ctx.prisma.scenario.findFirst({where: {id: input}});
 	}),
 	create: t.procedure

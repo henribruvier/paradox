@@ -5,7 +5,7 @@ export const userRouter = t.router({
 	all: t.procedure.query(({ctx}) => {
 		return ctx.prisma.user.findMany();
 	}),
-	byId: t.procedure.input(z.string()).query(({ctx, input}) => {
+	byId: t.procedure.input(z.number()).query(({ctx, input}) => {
 		return ctx.prisma.user.findFirst({where: {id: input}});
 	}),
 	create: t.procedure
