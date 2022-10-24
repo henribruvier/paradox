@@ -37,6 +37,7 @@ const Book = ({scenarios, prices}: Props) => {
 		});
 
 	const handleCreate = async () => {
+		if (!rooms?.[0]) return;
 		const duration = selectedScenario.duration * 60 * 1000;
 		const date = parseDate(startDate, bookingTime);
 		await mutation.mutateAsync({
@@ -44,7 +45,7 @@ const Book = ({scenarios, prices}: Props) => {
 			numberOfPlayers: numberOfPlayers,
 			startDate: date,
 			endDate: new Date(date.getTime() + duration),
-			room: 1,
+			room: rooms[0].id,
 		});
 	};
 
@@ -142,7 +143,6 @@ const Book = ({scenarios, prices}: Props) => {
 								min={new Date().toISOString().split('T')[0]}
 								max='2023-02-14'
 								onChange={e => {
-									console.log(e.target.value);
 									const value = new Date(e.target.value);
 									setStartDate(() => value);
 								}}
@@ -165,7 +165,6 @@ const Book = ({scenarios, prices}: Props) => {
 								max='21:00'
 								required
 								onChange={e => {
-									console.log(e.target.value);
 									setBookingTime(() => e.target.value);
 								}}
 							/>
