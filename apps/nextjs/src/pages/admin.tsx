@@ -1,20 +1,20 @@
 import * as React from 'react';
+import {trpc} from '../utils/trpc';
 
 type PageProps = {};
 
-/* 
-id             String     @id @default(cuid())
-  title          String
-  description    String
-  bestTime       Int
-  duration       Int
-  minimumPlayers Int
-  maximumPlayers Int
-  difficulty     Difficulty
-  games          Game[]
-  images         Image[] */
-
 const Page = ({}: PageProps) => {
+	const create = trpc.scenario.create.useMutation();
+	const handleCreate = async () => {
+		await create.mutate({
+			title: 'test',
+			description: 'test',
+			duration: 10,
+			minimumPlayers: 1,
+			maximumPlayers: 1,
+			difficulty: 'EASY',
+		});
+	};
 	return (
 		<div className='w-screen h-screen flex items-center justify-center'>
 			<div className='lg:w-2/6 md:w-1/2 bg-gray-100 rounded-lg p-8 flex flex-col md:ml-auto w-full mt-10 md:mt-0'>
