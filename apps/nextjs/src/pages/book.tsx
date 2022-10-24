@@ -12,6 +12,9 @@ type Props = {
 	prices: Price[];
 };
 
+const parseDate = (date: Date, time: string) =>
+	new Date(date.toISOString().split('T')[0] + ' ' + time + ':00');
+
 const Book = ({scenarios, prices}: Props) => {
 	const router = useRouter();
 	const mutation = trpc.game.create.useMutation();
@@ -20,26 +23,27 @@ const Book = ({scenarios, prices}: Props) => {
 		scenarios.find(item => item.title === router.query?.scenario) ??
 			scenarios[0]!,
 	);
+
 	const [numberOfPlayers, setNumberOfPlayers] = useState(2);
 	const [hasNumberOfPlayersError, setHasNumberOfPlayersError] = useState(false);
 
 	const [startDate, setStartDate] = useState(new Date());
+	const [bookingTime, setBookingTime] = useState('18:00');
 
 	const {data: rooms, refetch: getAvailableRooms} =
 		trpc.room.available.useQuery({
-			date: startDate,
+			date: parseDate(startDate, bookingTime),
 			duration: selectedScenario.duration * 60 * 1000,
 		});
-	console.log('rooms', rooms);
 
 	const handleCreate = async () => {
 		const duration = selectedScenario.duration * 60 * 1000;
-		return;
+		const date = parseDate(startDate, bookingTime);
 		await mutation.mutateAsync({
 			scenario: selectedScenario?.id,
 			numberOfPlayers: numberOfPlayers,
-			startDate: startDate,
-			endDate: new Date(startDate.getTime() + duration),
+			startDate: date,
+			endDate: new Date(date.getTime() + duration),
 			room: 1,
 		});
 	};
@@ -156,13 +160,13 @@ const Book = ({scenarios, prices}: Props) => {
 								id='time'
 								name='time'
 								className='w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out'
-								value={startDate.toISOString().split('T')[0]}
-								min={new Date().toISOString().split('T')[0]}
-								max='2023-02-14'
+								value={bookingTime}
+								min='15:00'
+								max='21:00'
+								required
 								onChange={e => {
 									console.log(e.target.value);
-									const value = new Date(e.target.value);
-									setStartDate(() => value);
+									setBookingTime(() => e.target.value);
 								}}
 							/>
 						</div>
