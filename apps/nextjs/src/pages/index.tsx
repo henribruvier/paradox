@@ -3,6 +3,7 @@ import Head from "next/head";
 import { trpc } from "../utils/trpc";
 import type { inferProcedureOutput } from "@trpc/server";
 import type { AppRouter } from "@paradox/api";
+import Link from "next/link";
 
 const PostCard: React.FC<{
   post: inferProcedureOutput<AppRouter["post"]["all"]>[number];
@@ -26,20 +27,9 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="container flex flex-col items-center min-h-screen py-16 mx-auto">
-        <h1 className="text-5xl md:text-[5rem] leading-normal font-extrabold text-gray-700">
-          Create <span className="text-indigo-500">T3</span> Turbo
-        </h1>
-        <div className="flex items-center justify-center w-full pt-6 text-2xl text-blue-500">
-          {postQuery.data ? (
-            <div className="flex flex-col gap-4">
-              {postQuery.data?.map((p) => {
-                return <PostCard key={p.id} post={p} />;
-              })}
-            </div>
-          ) : (
-            <p>Loading..</p>
-          )}
-        </div>
+        <Link href={"/admin"}>
+          <a className="text-2xl font-bold text-gray-800">Page Admin</a>
+        </Link>
       </main>
     </>
   );
