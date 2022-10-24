@@ -63,6 +63,7 @@ importers:
 
   apps/nextjs:
     specifiers:
+      '@impulse.dev/runtime': ^0.4.1
       '@paradox/api': '*'
       '@paradox/db': '*'
       '@tanstack/react-query': ^4.7.2
@@ -87,6 +88,7 @@ importers:
       typescript: ^4.8.3
       zod: ^3.18.0
     dependencies:
+      '@impulse.dev/runtime': 0.4.1
       '@paradox/api': link:../../packages/api
       '@paradox/db': link:../../packages/db
       '@tanstack/react-query': 4.9.0_ef5jwxihqo6n7gxfmzogljlgcm
@@ -1780,6 +1782,10 @@ packages:
   /@humanwhocodes/object-schema/1.2.1:
     resolution: {integrity: sha512-ZnQMnLV4e7hDlUvw8H+U8ASL02SS2Gn6+9Ac3wGGLIe7+je2AeAOxPY+izIPJDfFDb7eDjev0Us8MO1iFRN8hA==}
     dev: true
+
+  /@impulse.dev/runtime/0.4.1:
+    resolution: {integrity: sha512-I+tEGnZa4Qn+BQKjViWWF5hgquvxzvI0PMDMJq+kEeMCR8m1zEGb7OM7yUoODTvY6+W8xbWtWCrwt01DA56jKg==}
+    dev: false
 
   /@jest/create-cache-key-function/27.5.1:
     resolution: {integrity: sha512-dmH1yW+makpTSURTy8VzdUwFnfQh1G8R+DxO2Ho2FFmBbKFEVm+3jWdvFhE2VqB/LATCTokkP0dotjyQyw5/AQ==}
