@@ -42,7 +42,7 @@ model Scenario {
   id             String     @id @default(cuid())
   title          String
   description    String
-  bestTime       Int
+  bestTime       Int?
   duration       Int
   minimumPlayers Int
   maximumPlayers Int
