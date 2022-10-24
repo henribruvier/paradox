@@ -1,10 +1,10 @@
 // src/server/router/index.ts
 import {t} from '../trpc';
 
-import {postRouter} from './post';
+import {gameRouter} from './game';
 
 export const appRouter = t.router({
-	post: postRouter,
+	game: gameRouter,
 });
 
 // export type definition of API
