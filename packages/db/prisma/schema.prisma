@@ -2,17 +2,73 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
   previewFeatures = ["referentialIntegrity"]
 }
+
 datasource db {
-  provider = "mysql"
-  url = env("DATABASE_URL")
+  provider             = "mysql"
+  url                  = env("DATABASE_URL")
   referentialIntegrity = "prisma"
 }
 
-model Post {
-    id      String @id @default(cuid())
-    title   String
-    content String
+enum Difficulty {
+  EASY
+  MEDIUM
+  HARD
+}
+
+enum GameStatus {
+  NOT_STARTED
+  IN_PROGRESS
+  IN_TIME_OVER
+  FINISHED
+}
+
+model Image {
+  id         String    @id @default(cuid())
+  url        String
+  alt        String
+  Scenario   Scenario @relation(fields: [scenarioId], references: [id])
+  scenarioId String
+}
+
+model Room {
+  id     String @id @default(cuid())
+  number Int    @unique @default(autoincrement())
+  games  Game[]
+}
+
+model Scenario {
+  id             String     @id @default(cuid())
+  title          String
+  description    String
+  bestTime       Int
+  duration       Int
+  minimumPlayers Int
+  maximumPlayers Int
+  difficulty     Difficulty
+  games          Game[]
+  images         Image[]
+}
+
+model User {
+  id       String  @id @default(cuid())
+  name     String
+  email    String  @unique
+  password String
+  isAdmin  Boolean @default(false)
+}
+
+model Game {
+  id              String     @id @default(cuid())
+  reservationDate DateTime
+  numberOfPlayers Int
+  startDate       DateTime
+  timeSpent       Int
+  scenario        Scenario   @relation(references: [id], fields: [scenarioId])
+  scenarioId      String
+  roomID          String
+  romm            Room       @relation(references: [id], fields: [roomID])
+  status          GameStatus
 }
