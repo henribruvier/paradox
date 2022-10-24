@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {trpc} from '../utils/trpc';
+import {trpc} from '../../utils/trpc';
 import {Scenario} from '@prisma/client';
 
 type PageProps = {};
@@ -35,7 +35,7 @@ const Page = ({}: PageProps) => {
 
 	return (
 		<div className='w-screen h-screen flex items-center justify-center'>
-			<form className='lg:w-2/6 md:w-1/2 bg-gray-100 rounded-lg p-8 flex flex-col w-full mt-10 md:mt-0'>
+			<div className='lg:w-2/6 md:w-1/2 bg-gray-100 rounded-lg p-8 flex flex-col w-full mt-10 md:mt-0'>
 				<h2 className='text-gray-900 text-lg font-medium title-font mb-5'>
 					Create Scenario
 				</h2>
@@ -145,7 +145,7 @@ const Page = ({}: PageProps) => {
 				>
 					Create Scenario
 				</button>
-			</form>
+			</div>
 		</div>
 	);
 };

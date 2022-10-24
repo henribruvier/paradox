@@ -10,6 +10,7 @@
 		"lint": "next lint"
 	},
 	"dependencies": {
+		"@headlessui/react": "^1.7.3",
 		"@heroicons/react": "^2.0.12",
 		"@paradox/api": "*",
 		"@paradox/db": "*",
