@@ -26,7 +26,7 @@ enum GameStatus {
 }
 
 model Image {
-  id         String    @id @default(cuid())
+  id         String   @id @default(cuid())
   url        String
   alt        String
   Scenario   Scenario @relation(fields: [scenarioId], references: [id])
@@ -34,9 +34,8 @@ model Image {
 }
 
 model Room {
-  id     String @id @default(cuid())
-  number Int    @unique @default(autoincrement())
-  games  Game[]
+  id    Int    @id @default(autoincrement())
+  games Game[]
 }
 
 model Scenario {
@@ -64,11 +63,11 @@ model Game {
   id              String     @id @default(cuid())
   reservationDate DateTime
   numberOfPlayers Int
-  startDate       DateTime
-  timeSpent       Int
+  startDate       DateTime?
+  timeSpent       Int?
   scenario        Scenario   @relation(references: [id], fields: [scenarioId])
   scenarioId      String
-  roomID          String
-  romm            Room       @relation(references: [id], fields: [roomID])
+  roomID          Int
+  room            Room       @relation(references: [id], fields: [roomID])
   status          GameStatus
 }
