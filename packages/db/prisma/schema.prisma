@@ -61,13 +61,20 @@ model User {
 
 model Game {
   id              Int        @id @default(autoincrement())
-  reservationDate DateTime
+  startDate       DateTime
+  endDate         DateTime
   numberOfPlayers Int
-  startDate       DateTime?
+  startedAt       DateTime?
   timeSpent       Int?
   scenario        Scenario   @relation(references: [id], fields: [scenarioId])
   scenarioId      Int
   roomID          Int
   room            Room       @relation(references: [id], fields: [roomID])
   status          GameStatus
+}
+
+model Price {
+  id              Int @id @default(autoincrement())
+  price           Int
+  numberOfPlayers Int @unique
 }

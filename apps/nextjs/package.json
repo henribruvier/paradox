@@ -10,6 +10,7 @@
 		"lint": "next lint"
 	},
 	"dependencies": {
+		"@heroicons/react": "^2.0.12",
 		"@paradox/api": "*",
 		"@paradox/db": "*",
 		"@tanstack/react-query": "^4.7.2",
@@ -23,7 +24,7 @@
 		"zod": "^3.18.0"
 	},
 	"devDependencies": {
-		"@impulse.dev/runtime": "^0.4.1",
+		"@impulse.dev/runtime": "^0.4.2",
 		"@types/node": "^18.0.0",
 		"@types/react": "^18.0.21",
 		"@types/react-dom": "^18.0.5",

@@ -8,4 +8,37 @@ export const roomRouter = t.router({
 	byId: t.procedure.input(z.number()).query(({ctx, input}) => {
 		return ctx.prisma.room.findFirst({where: {id: input}});
 	}),
+	available: t.procedure
+		.input(
+			z.object({
+				date: z.date(),
+				duration: z.number(),
+			}),
+		)
+		.query(({ctx, input}) => {
+			return ctx.prisma.room.findMany({
+				where: {
+					NOT: [
+						{
+							games: {
+								some: {
+									startDate: {
+										lte: new Date(input.date.getTime() + input.duration),
+									},
+								},
+							},
+						},
+						{
+							games: {
+								some: {
+									endDate: {
+										gte: input.date,
+									},
+								},
+							},
+						},
+					],
+				},
+			});
+		}),
 });

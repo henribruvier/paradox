@@ -11,15 +11,23 @@ export const gameRouter = t.router({
 	create: t.procedure
 		.input(
 			z.object({
-				title: z.string(),
-				content: z.string(),
+				scenario: z.number(),
 				numberOfPlayers: z.number(),
-				reservationDate: z.string(),
-				scenario: z.string(),
+				startDate: z.date(),
+				endDate: z.date(),
 				room: z.number(),
 			}),
 		)
 		.mutation(({ctx, input}) => {
-			return ctx.prisma.game.create({data: {...input, status: 'NOT_STARTED'}});
+			return ctx.prisma.game.create({
+				data: {
+					numberOfPlayers: input.numberOfPlayers,
+					startDate: input.startDate,
+					endDate: input.endDate,
+					room: {connect: {id: input.room}},
+					scenario: {connect: {id: input.scenario}},
+					status: 'NOT_STARTED',
+				},
+			});
 		}),
 });
