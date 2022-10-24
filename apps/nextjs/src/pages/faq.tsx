@@ -1,15 +1,9 @@
 import type {NextPage} from 'next';
 import Head from 'next/head';
-import {trpc} from '../utils/trpc';
-import type {inferProcedureOutput} from '@trpc/server';
-import type {AppRouter} from '@paradox/api';
 import Link from 'next/link';
-import {ScenarioCard} from '../components/scenario-card';
 import {Navbar} from '../components/navbar';
 
-const Home: NextPage = () => {
-	const postQuery = trpc.scenario.all.useQuery();
-
+const Faq: NextPage = () => {
 	return (
 		<>
 			<Head>
@@ -22,14 +16,9 @@ const Home: NextPage = () => {
 				<Link href={'/admin'}>
 					<a className='text-2xl font-bold text-gray-800'>Page Admin</a>
 				</Link>
-				<div className='flex flex-wrap -m-4'>
-					{postQuery.data?.map(post => (
-						<ScenarioCard key={post.id} scenario={post} />
-					))}
-				</div>
 			</main>
 		</>
 	);
 };
 
-export default Home;
+export default Faq;

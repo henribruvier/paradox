@@ -1,13 +1,19 @@
 import type {NextPage} from 'next';
+import {prisma} from '@paradox/db';
 import Head from 'next/head';
 import {trpc} from '../utils/trpc';
 import {BookScenario} from '../components/book-scenario';
 import {Navbar} from '../components/navbar';
+import {useRouter} from 'next/router';
+import {GetServerSideProps, InferGetServerSidePropsType} from 'next';
 
-const Book: NextPage = () => {
-	const scenarioQuery = trpc.scenario.all.useQuery();
+type Props = InferGetServerSidePropsType<typeof getServerSideProps>;
 
+const Book: NextPage = ({scenarios}: Props) => {
+	const router = useRouter();
 	const mutation = trpc.game.create.useMutation();
+	const paramsTitle = router.query?.scenario;
+
 	const handleCreate = async () => {
 		await mutation.mutateAsync({
 			scenario: '',
@@ -19,8 +25,6 @@ const Book: NextPage = () => {
 		});
 	};
 
-	console.log(scenarioQuery.data);
-
 	return (
 		<>
 			<Head>
@@ -29,17 +33,134 @@ const Book: NextPage = () => {
 				<link rel='icon' href='/favicon.ico' />
 			</Head>
 			<Navbar />
-			<main className='container flex flex-col items-center min-h-screen py-16 mx-auto'>
-				{scenarioQuery.data ? (
-					scenarioQuery.data?.map(scenario => (
-						<BookScenario scenario={scenario} />
-					))
-				) : (
-					<div>Loading...</div>
-				)}
-			</main>
+			<div className='w-screen h-screen flex items-center justify-center'>
+				<form className='lg:w-2/6 md:w-1/2 bg-gray-100 rounded-lg p-8 flex flex-col w-full mt-10 md:mt-0'>
+					<h2 className='text-gray-900 text-lg font-medium title-font mb-5'>
+						Create Scenario
+					</h2>
+
+					<div className='relative mb-4'>
+						<label className='leading-7 text-sm text-gray-600'>Title</label>
+						<input
+							type='string'
+							id='title'
+							name='title'
+							value={scenario?.title}
+							onChange={e =>
+								setScenario(scenario => ({...scenario, title: e.target.value}))
+							}
+							className='w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out'
+						/>
+					</div>
+					<div className='relative mb-4'>
+						<label className='leading-7 text-sm text-gray-600'>
+							Description
+						</label>
+						<input
+							type='string'
+							id='description'
+							name=''
+							value={scenario?.description}
+							onChange={e =>
+								setScenario(scenario => ({
+									...scenario,
+									description: e.target.value,
+								}))
+							}
+							className='w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out'
+						/>
+					</div>
+					<div className='relative mb-4'>
+						<label className='leading-7 text-sm text-gray-600'>
+							Duration (secondes)
+						</label>
+						<input
+							type='number'
+							id='duration'
+							name=''
+							value={scenario?.duration}
+							onChange={e =>
+								setScenario(scenario => ({
+									...scenario,
+									duration: parseInt(e.target.value, 10),
+								}))
+							}
+							className='w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out'
+						/>
+					</div>
+					<div className='relative mb-4'>
+						<label className='leading-7 text-sm text-gray-600'>
+							Minimum players
+						</label>
+						<input
+							type='number'
+							id='minPlayers'
+							name='minPlayers'
+							value={scenario?.minimumPlayers}
+							onChange={e =>
+								setScenario(scenario => ({
+									...scenario,
+									minimumPlayers: parseInt(e.target.value, 10),
+								}))
+							}
+							className='w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out'
+						/>
+					</div>
+					<div className='relative mb-4'>
+						<label className='leading-7 text-sm text-gray-600'>
+							Maximum players
+						</label>
+						<input
+							type='number'
+							id='maximumPlayers'
+							name='maximumPlayers'
+							value={scenario?.maximumPlayers}
+							onChange={e =>
+								setScenario(scenario => ({
+									...scenario,
+									maximumPlayers: parseInt(e.target.value, 10),
+								}))
+							}
+							className='w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out'
+						/>
+					</div>
+					<div className='relative mb-4 flex flex-col'>
+						<label className='leading-7 text-sm text-gray-600'>
+							Difficulty
+						</label>
+						<select
+							onChange={e =>
+								setScenario(scenario => ({
+									...scenario,
+									difficulty: e.target.value as any,
+								}))
+							}
+							className='rounded border appearance-none border-gray-300 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-200 focus:border-indigo-500 text-base pl-3 pr-10'
+						>
+							<option>EASY</option>
+							<option>MEDIUM</option>
+							<option>HARD</option>
+						</select>
+					</div>
+					<button
+						className='text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg'
+						onClick={async () => await handleCreate()}
+					>
+						Create Scenario
+					</button>
+				</form>
+			</div>
 		</>
 	);
+};
+
+export const getServerSideProps: GetServerSideProps = async () => {
+	const scenarios = await prisma.scenario.findMany();
+	return {
+		props: {
+			scenarios,
+		},
+	};
 };
 
 export default Book;

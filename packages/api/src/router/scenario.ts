@@ -8,6 +8,9 @@ export const scenarioRouter = t.router({
 	byId: t.procedure.input(z.number()).query(({ctx, input}) => {
 		return ctx.prisma.scenario.findFirst({where: {id: input}});
 	}),
+	delete: t.procedure.input(z.number()).mutation(({ctx, input}) => {
+		return ctx.prisma.scenario.delete({where: {id: input}});
+	}),
 	create: t.procedure
 		.input(
 			z.object({
