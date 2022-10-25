@@ -5,6 +5,8 @@ import {trpc} from '../utils/trpc';
 
 type LoginModalProps = {
 	isOpen: boolean;
+	callback?: () => void;
+	closeModal: () => void;
 };
 
 type Data = {
@@ -12,13 +14,14 @@ type Data = {
 	password?: string;
 };
 
-export const LoginModal = ({isOpen}: LoginModalProps) => {
+export const LoginModal = ({isOpen, callback, closeModal}: LoginModalProps) => {
 	const [connectionType, setConnectionType] = useState<'login' | 'register'>(
 		'login',
 	);
 	const [loginData, setLoginData] = useState<Data>();
 	const [registerData, setRegisterData] = useState<Data>();
 	const registerMutation = trpc.user.create.useMutation();
+
 	const [error, setError] = useState<string>();
 
 	const onRegister = async () => {
@@ -27,6 +30,29 @@ export const LoginModal = ({isOpen}: LoginModalProps) => {
 				name: registerData?.name as string,
 				password: registerData?.password as string,
 			});
+			callback && callback();
+			closeModal();
+		} catch (e) {
+			//@ts-expect-error - this is a custom error
+			setError(e.message);
+		}
+	};
+
+	const onLogin = async () => {
+		try {
+			console.log(loginData);
+
+			const user = await fetch('/api/user', {
+				method: 'POST',
+				body: JSON.stringify(loginData),
+			});
+			if (user.status === 200) {
+				user.json().then(data => console.log(data));
+				callback && callback();
+				closeModal();
+				return;
+			}
+			setError('Invalid credentials');
 		} catch (e) {
 			//@ts-expect-error - this is a custom error
 			setError(e.message);
@@ -35,7 +61,7 @@ export const LoginModal = ({isOpen}: LoginModalProps) => {
 
 	return (
 		<Transition appear show={isOpen} as={Fragment}>
-			<Dialog as='div' className='relative z-10' onClose={() => null}>
+			<Dialog as='div' className='relative z-10' onClose={() => closeModal()}>
 				<Transition.Child
 					as={Fragment}
 					enter='ease-out duration-300'
@@ -113,6 +139,9 @@ export const LoginModal = ({isOpen}: LoginModalProps) => {
 											<button
 												type='button'
 												className='inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2'
+												onClick={() => {
+													onLogin();
+												}}
 											>
 												Login and book party !
 											</button>
