@@ -1,7 +1,7 @@
 import type {NextPage} from 'next';
 import Head from 'next/head';
-import Link from 'next/link';
 import {Navbar} from '../components/navbar';
+import {Disclosure} from '@headlessui/react';
 
 const Faq: NextPage = () => {
 	return (
@@ -13,9 +13,15 @@ const Faq: NextPage = () => {
 			</Head>
 			<Navbar />
 			<main className='container flex flex-col items-center min-h-screen py-16 mx-auto'>
-				<Link href={'/admin'}>
-					<a className='text-2xl font-bold text-gray-800'>Page Admin</a>
-				</Link>
+				<Disclosure>
+					<Disclosure.Button className='py-2'>
+						Is team pricing available?
+					</Disclosure.Button>
+					<Disclosure.Panel className='text-gray-500'>
+						Yes! You can purchase a license that you can share with your entire
+						team.
+					</Disclosure.Panel>
+				</Disclosure>
 			</main>
 		</>
 	);
