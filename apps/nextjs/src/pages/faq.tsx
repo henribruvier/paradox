@@ -1,9 +1,14 @@
-import type {NextPage} from 'next';
+import type {GetServerSideProps} from 'next';
 import Head from 'next/head';
 import {Navbar} from '../components/navbar';
 import {Disclosure} from '@headlessui/react';
+import {prisma} from '@paradox/db';
+import {Faq} from '@prisma/client';
 
-const Faq: NextPage = () => {
+type Props = {
+	faq: Faq[];
+};
+const Faq = ({faq}: Props) => {
 	return (
 		<>
 			<Head>
@@ -13,18 +18,28 @@ const Faq: NextPage = () => {
 			</Head>
 			<Navbar />
 			<main className='container flex flex-col items-center min-h-screen py-16 mx-auto'>
-				<Disclosure>
-					<Disclosure.Button className='py-2'>
-						Is team pricing available?
-					</Disclosure.Button>
-					<Disclosure.Panel className='text-gray-500'>
-						Yes! You can purchase a license that you can share with your entire
-						team.
-					</Disclosure.Panel>
-				</Disclosure>
+				{faq.map(item => (
+					<Disclosure key={item.id}>
+						<Disclosure.Button className='py-2'>
+							{item.question}
+						</Disclosure.Button>
+						<Disclosure.Panel className='text-gray-500'>
+							{item.answer}
+						</Disclosure.Panel>
+					</Disclosure>
+				))}
 			</main>
 		</>
 	);
+};
+
+export const getServerSideProps: GetServerSideProps = async () => {
+	const faq = await prisma.faq.findMany();
+	return {
+		props: {
+			faq,
+		},
+	};
 };
 
 export default Faq;
