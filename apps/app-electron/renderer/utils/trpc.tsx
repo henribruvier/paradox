@@ -3,7 +3,6 @@
 // src/utils/trpc.ts
 import {createTRPCNext} from '@trpc/next';
 import {httpBatchLink} from '@trpc/client';
-import type {AppRouter} from '@paradox/api';
 import {transformer} from '@paradox/api/transformer';
 
 export const trpc = createTRPCNext<any>({
@@ -12,7 +11,13 @@ export const trpc = createTRPCNext<any>({
 			transformer,
 			links: [
 				httpBatchLink({
-					url: `https://paradox-sand.vercel.app/api/trpc/`,
+					url: 'https://paradox-sand.vercel.app/api/trpc',
+					fetch(url, options) {
+						return fetch(url, {
+							...options,
+							credentials: 'include',
+						});
+					},
 				}),
 			],
 		};
