@@ -1,0 +1,12 @@
+appId: com.paradox.nextron
+productName: Paradox
+copyright: Copyright © 2022 Henri Bruvier
+directories:
+  output: dist
+  buildResources: resources
+files:
+  - from: .
+    filter:
+      - package.json
+      - app
+publish: null
