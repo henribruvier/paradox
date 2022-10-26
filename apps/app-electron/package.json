@@ -1,6 +1,6 @@
 {
 	"private": true,
-	"name": "paradox",
+	"name": "@paradox/app-electron",
 	"description": "super app desktop",
 	"version": "1.0.0",
 	"author": "Henri Bruvier",
@@ -11,8 +11,17 @@
 		"postinstall": "electron-builder install-app-deps"
 	},
 	"dependencies": {
+		"@paradox/api": "*",
+		"@paradox/db": "*",
+		"@tanstack/react-query": "^4.9.0",
+		"@trpc/client": "10.0.0-proxy-beta.26",
+		"@trpc/next": "10.0.0-proxy-beta.13",
+		"@trpc/react": "10.0.0-proxy-beta.13",
+		"@trpc/react-query": "10.0.0-proxy-beta.26",
+		"@trpc/server": "10.0.0-proxy-beta.26",
 		"electron-serve": "^1.1.0",
-		"electron-store": "^8.1.0"
+		"electron-store": "^8.1.0",
+		"zod": "^3.19.1"
 	},
 	"devDependencies": {
 		"@types/node": "^16.11.7",

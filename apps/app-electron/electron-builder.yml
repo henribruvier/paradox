@@ -1,6 +1,7 @@
 appId: com.paradox.nextron
 productName: Paradox
 copyright: Copyright © 2022 Henri Bruvier
+electronVersion: '23.6.0'
 directories:
   output: dist
   buildResources: resources
