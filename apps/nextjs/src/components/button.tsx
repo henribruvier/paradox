@@ -1,6 +1,6 @@
 import {ButtonHTMLAttributes, forwardRef, PropsWithChildren, Ref} from 'react';
 
-type Props = {};
+type Props = unknown;
 type NativeAttrs = Omit<ButtonHTMLAttributes<any>, keyof Props>;
 export type ButtonProps = Props & NativeAttrs;
 

@@ -25,13 +25,16 @@ export const EditScenarioModal = ({
 	isOpen,
 	closeModal,
 }: EditScenarioModalProps) => {
-	if (scenario === undefined) return null;
-	const [newScenario, setNewScenario] = React.useState<Body>(scenario);
 	const updateMutation = trpc.scenario.update.useMutation();
 	const deleteMutation = trpc.scenario.delete.useMutation();
 	const router = useRouter();
 
+	const [newScenario, setNewScenario] = React.useState<Body | undefined>(
+		scenario,
+	);
+
 	const handleUpdate = async () => {
+		if (!newScenario || !scenario) return;
 		try {
 			const test = await updateMutation.mutateAsync({
 				id: scenario.id,
@@ -50,6 +53,7 @@ export const EditScenarioModal = ({
 	};
 
 	const handleDelete = async () => {
+		if (!scenario) return;
 		try {
 			await deleteMutation.mutateAsync(scenario.id);
 			router.reload();
@@ -88,7 +92,7 @@ export const EditScenarioModal = ({
 									as='h3'
 									className='text-lg font-medium leading-6 text-gray-900'
 								>
-									Editer le scenario {newScenario.title}
+									Editer le scenario {newScenario?.title}
 								</Dialog.Title>
 								<div className='relative mb-4'>
 									<label className='leading-7 text-sm text-gray-600'>

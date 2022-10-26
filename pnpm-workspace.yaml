@@ -1,5 +1,6 @@
 packages:
   - apps/expo
+  - apps/app-electron
   - apps/nextjs
   - packages/api
   - packages/db

@@ -1,9 +1,6 @@
 import * as React from 'react';
 import {trpc} from '../../utils/trpc';
-import {Scenario} from '@prisma/client';
 import {WebLayout} from '../../components/layout/web-layout';
-
-type PageProps = {};
 
 type Body = {
 	title?: string;
@@ -14,7 +11,7 @@ type Body = {
 	difficulty?: 'EASY' | 'MEDIUM' | 'HARD';
 };
 
-const Page = ({}: PageProps) => {
+const Page = () => {
 	const mutation = trpc.scenario.create.useMutation();
 	const [scenario, setScenario] = React.useState<Body>();
 

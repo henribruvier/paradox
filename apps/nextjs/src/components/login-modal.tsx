@@ -216,7 +216,7 @@ export const LoginModal = ({isOpen, callback, closeModal}: LoginModalProps) => {
 									</div>
 								)}
 								{error && (
-									<p className='text-red-300'>Une erreur s'est produit</p>
+									<p className='text-red-300'>Une erreur s&apos;est produit</p>
 								)}
 							</Dialog.Panel>
 						</Transition.Child>
