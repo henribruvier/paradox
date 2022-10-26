@@ -2,23 +2,16 @@ import React from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
 import {GetServerSideProps} from 'next';
-import {prisma} from '@paradox/db';
+
 import {Scenario, Price} from '@prisma/client';
+import {prisma} from '@paradox/db';
+import {trpc} from '../utils/trpc';
 
-type Props = {
-	scenario: Scenario[];
-	text: string;
-};
-function Home({scenario, text}: Props) {
-	console.log('scenario', scenario);
-	const showNotification = () => {
-		const notificationTitle = 'My Notification 🔔';
+type Props = {};
+function Home() {
+	const test = trpc?.book?.all?.useQuery();
+	console.log(test);
 
-		new Notification(notificationTitle, {
-			body: 'This is a sample notification.',
-		}).onclick = () => console.log('Notification Clicked');
-	};
-	showNotification();
 	return (
 		<React.Fragment>
 			<Head>
@@ -42,18 +35,5 @@ function Home({scenario, text}: Props) {
 		</React.Fragment>
 	);
 }
-
-export const getServerSideProps: GetServerSideProps = async () => {
-	const scenarios = await prisma.scenario.findMany();
-	const text = 'balblaerfa';
-	const prices = await prisma.price.findMany();
-	return {
-		props: {
-			scenarios,
-			prices,
-			text,
-		},
-	};
-};
 
 export default Home;
