@@ -23,7 +23,7 @@ export const roomRouter = t.router({
 							games: {
 								some: {
 									startDate: {
-										lte: new Date(input.date.getTime() + input.duration),
+										gte: new Date(input.date.getTime() + input.duration),
 									},
 								},
 							},
@@ -32,7 +32,7 @@ export const roomRouter = t.router({
 							games: {
 								some: {
 									endDate: {
-										gte: input.date,
+										lte: input.date,
 									},
 								},
 							},

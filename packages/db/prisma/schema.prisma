@@ -51,20 +51,17 @@ model Scenario {
   images         Image[]
 }
 
-
-
-model User{
-  id Int @default(autoincrement()) @id
-  name String  
+model User {
+  id       Int           @id @default(autoincrement())
+  name     String
   password String
-  role RoleEnumType? @default(user)
+  role     RoleEnumType? @default(user)
 }
 
 enum RoleEnumType {
   user
   admin
 }
-
 
 model Game {
   id              Int        @id @default(autoincrement())
@@ -84,4 +81,10 @@ model Price {
   id              Int @id @default(autoincrement())
   price           Int
   numberOfPlayers Int @unique
+}
+
+model Faq {
+  id       Int    @id @default(autoincrement())
+  question String
+  answer   String
 }
