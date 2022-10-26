@@ -17,6 +17,7 @@ const CreatePost: React.FC = () => {
 
 export const HomeScreen = () => {
 	const [showPost, setShowPost] = React.useState<string | null>(null);
+	const {data: games} = trpc.game.all.useQuery();
 
 	return (
 		<SafeAreaView>
@@ -24,6 +25,9 @@ export const HomeScreen = () => {
 				<Text className='text-5xl font-bold mx-auto pb-2'>
 					Create <Text className='text-indigo-500'>T3</Text> Turbo
 				</Text>
+				{games?.map(game => (
+					<Text className='text-5xl font-bold mx-auto pb-2'>{game.id}</Text>
+				))}
 
 				<View className='py-2'>
 					{showPost ? (
