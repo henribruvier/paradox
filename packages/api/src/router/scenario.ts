@@ -25,4 +25,22 @@ export const scenarioRouter = t.router({
 		.mutation(({ctx, input}) => {
 			return ctx.prisma.scenario.create({data: input});
 		}),
+	update: t.procedure
+		.input(
+			z.object({
+				id: z.number(),
+				title: z.string(),
+				description: z.string(),
+				duration: z.number(),
+				minimumPlayers: z.number(),
+				maximumPlayers: z.number(),
+				difficulty: z.enum(['EASY', 'MEDIUM', 'HARD']),
+			}),
+		)
+		.mutation(({ctx, input}) => {
+			return ctx.prisma.scenario.update({where: {id: input.id}, data: input});
+		}),
+	deleteById: t.procedure.input(z.number()).mutation(({ctx, input}) => {
+		return ctx.prisma.scenario.delete({where: {id: input}});
+	}),
 });
