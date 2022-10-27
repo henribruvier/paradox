@@ -15,6 +15,11 @@ export const ScenarioCard = ({scenario}: ScenarioCardProps) => {
 				{scenario.title}
 			</h1>
 			<p className='leading-relaxed mb-3'>{scenario.description}</p>
+			{scenario.bestTime && (
+				<p className='leading-relaxed mb-3'>
+					Meilleur temps {scenario.bestTime / 60} mn
+				</p>
+			)}
 			<a
 				href={`/scenario/${scenario.id}`}
 				className='text-indigo-500 inline-flex items-center'
