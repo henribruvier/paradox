@@ -140,12 +140,14 @@ importers:
       '@trpc/next': 10.0.0-proxy-beta.13
       '@trpc/react': 10.0.0-proxy-beta.13
       '@trpc/server': 10.0.0-proxy-beta.13
+      '@types/cors': ^2.8.12
       '@types/node': ^18.0.0
       '@types/react': ^18.0.21
       '@types/react-dom': ^18.0.5
       '@typescript-eslint/eslint-plugin': ^5.33.0
       '@typescript-eslint/parser': ^5.33.0
       autoprefixer: ^10.4.7
+      cors: ^2.8.5
       eslint: 8.22.0
       eslint-config-next: 12.3.1
       next: 12.3.1
@@ -166,6 +168,8 @@ importers:
       '@trpc/next': 10.0.0-proxy-beta.13_2dx6cp5lnkwywcy3ul6bkbpivy
       '@trpc/react': 10.0.0-proxy-beta.13_ticwmu4ugzx4ag4o3th2zkic4u
       '@trpc/server': 10.0.0-proxy-beta.13
+      '@types/cors': 2.8.12
+      cors: 2.8.5
       next: 12.3.1_ef5jwxihqo6n7gxfmzogljlgcm
       react: 18.1.0
       react-dom: 18.1.0_react@18.1.0
@@ -3713,7 +3717,7 @@ packages:
       react: '>=16.8.0'
       react-dom: '>=16.8.0'
     dependencies:
-      '@tanstack/react-query': 4.9.0_hdrojcrk5nxw27oyzyigo4tbny
+      '@tanstack/react-query': 4.9.0_ef5jwxihqo6n7gxfmzogljlgcm
       '@trpc/client': 10.0.0-proxy-beta.13_itipy43llokwyezwccgik4t2sm
       '@trpc/server': 10.0.0-proxy-beta.13
       react: 18.1.0
@@ -3726,6 +3730,10 @@ packages:
 
   /@trpc/server/10.0.0-proxy-beta.26:
     resolution: {integrity: sha512-XMpsQnH5s5Mn7CbRUMq2qT8TlHWNSygAizmpKnMhk3JDuLtqQNfxqGG41JzXiKNUcDrfcWt+MEyEa18sEjLYiA==}
+    dev: false
+
+  /@types/cors/2.8.12:
+    resolution: {integrity: sha512-vt+kDhq/M2ayberEtJcIN/hxXy1Pk+59g2FV/ZQceeaTyCtCucjL2Q7FXlFjtWn4n15KCr1NE2lNNFhp0lEThw==}
     dev: false
 
   /@types/debug/4.1.7:
@@ -5437,6 +5445,14 @@ packages:
 
   /core-util-is/1.0.3:
     resolution: {integrity: sha512-ZQBvi1DcpJ4GDqanjucZ2Hj3wEO5pZDS89BWbkcrvdxksJorwUDDZamX9ldFkp9aw2lmBDLgkObEA4DWNJ9FYQ==}
+    dev: false
+
+  /cors/2.8.5:
+    resolution: {integrity: sha512-KIHbLJqu73RGr/hnbrO9uBeixNGuvSQjul/jdFvS/KFSIH1hWVd1ng7zOHx+YrEfInLG7q4n6GHQ9cDtxv/P6g==}
+    engines: {node: '>= 0.10'}
+    dependencies:
+      object-assign: 4.1.1
+      vary: 1.1.2
     dev: false
 
   /cosmiconfig/5.2.1:
