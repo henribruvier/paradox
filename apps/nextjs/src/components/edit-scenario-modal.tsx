@@ -1,7 +1,7 @@
 import {Dialog, Transition} from '@headlessui/react';
 import * as React from 'react';
 import {Scenario} from '@prisma/client';
-import {Fragment} from 'react';
+import {Fragment, useEffect} from 'react';
 import {trpc} from '../utils/trpc';
 import {useRouter} from 'next/router';
 
@@ -28,10 +28,16 @@ export const EditScenarioModal = ({
 	const updateMutation = trpc.scenario.update.useMutation();
 	const deleteMutation = trpc.scenario.delete.useMutation();
 	const router = useRouter();
+	console.log(scenario);
 
 	const [newScenario, setNewScenario] = React.useState<Body | undefined>(
 		scenario,
 	);
+
+	useEffect(() => {
+		if (!scenario) return;
+		setNewScenario(() => scenario);
+	}, [scenario]);
 
 	const handleUpdate = async () => {
 		if (!newScenario || !scenario) return;
@@ -103,12 +109,14 @@ export const EditScenarioModal = ({
 										id='title'
 										name='title'
 										value={newScenario?.title}
-										onChange={e =>
+										onChange={e => {
+											e.preventDefault();
+											e.stopPropagation();
 											setNewScenario(scenario => ({
 												...scenario,
 												title: e.target.value,
-											}))
-										}
+											}));
+										}}
 										className='w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out'
 									/>
 								</div>
