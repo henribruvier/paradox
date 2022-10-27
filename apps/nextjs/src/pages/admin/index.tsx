@@ -7,6 +7,7 @@ import {PencilSquareIcon} from '@heroicons/react/24/solid';
 import {EditScenarioModal} from '../../components/edit-scenario-modal';
 import {Button} from '../../components/button';
 import Link from 'next/link';
+import {unHash} from '../../utils/crypto';
 
 type PageProps = {
 	scenarios: Scenario[];
@@ -16,6 +17,7 @@ type PageProps = {
 const Page = ({scenarios, prices}: PageProps) => {
 	const [selectedScenario, setSelectedScenario] = React.useState<Scenario>();
 	const [showModal, setShowModal] = React.useState(false);
+
 	return (
 		<WebLayout>
 			<EditScenarioModal
@@ -66,7 +68,27 @@ const Page = ({scenarios, prices}: PageProps) => {
 	);
 };
 
-export const getServerSideProps: GetServerSideProps = async () => {
+export const getServerSideProps: GetServerSideProps = async ctx => {
+	const {hash} = ctx.query;
+	if (!hash)
+		return {
+			redirect: {
+				destination: '/login-register',
+				permanent: false,
+			},
+		};
+	const id = Number.parseInt(await unHash(hash as string), 10);
+
+	const user = await prisma.user.findUnique({where: {id}});
+	if (!user || user.role !== 'admin') {
+		return {
+			redirect: {
+				destination: '/login-register',
+				permanent: false,
+			},
+		};
+	}
+
 	const scenarios = await prisma.scenario.findMany();
 	const prices = await prisma.price.findMany();
 
