@@ -54,8 +54,8 @@ export const HomeScreen = () => {
 	}, []);
 
 	useEffect(() => {
-		const sendNotofication = async () => {
-			await sendPushNotification(expoPushToken);
+		const sendNotofication = async (body: string) => {
+			await sendPushNotification(expoPushToken, body);
 		};
 		if (games) {
 			games.forEach(game => {
@@ -69,7 +69,7 @@ export const HomeScreen = () => {
 							id: game.id,
 							status: 'IN_TIME_OVER',
 						});
-						sendNotofication();
+						sendNotofication(`Jeu terminé dans la salle ${game.roomID}`);
 					}
 				}
 			});
@@ -201,7 +201,7 @@ export const HomeScreen = () => {
 };
 
 // Can use this function below, OR use Expo's Push Notification Tool-> https://expo.dev/notifications
-async function sendPushNotification(expoPushToken: string) {
+async function sendPushNotification(expoPushToken: string, body: string) {
 	const message = {
 		to: expoPushToken,
 		sound: 'default',
