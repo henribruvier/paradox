@@ -3,17 +3,14 @@ import {useRouter} from 'next/router';
 import {WebLayout} from '../components/layout/web-layout';
 import {User} from '@prisma/client';
 import {useState} from 'react';
-import {trpc} from '../utils/trpc';
 import {hash} from '../utils/crypto';
-
-type PageProps = {};
 
 type Data = {
 	name?: string;
 	password?: string;
 };
 
-const Page = ({}: PageProps) => {
+const Page = () => {
 	const router = useRouter();
 	const [loginData, setLoginData] = useState<Data>();
 	const [error, setError] = useState<string>();
@@ -52,7 +49,7 @@ const Page = ({}: PageProps) => {
 				<div className='w-full max-w-2xl bg-white p-4'>
 					<div className='mt-2'>
 						<p className='text-sm text-gray-500'>
-							Afin d'acceder à cette page vous devez etre administrateur
+							Afin d&apos;acceder à cette page vous devez etre administrateur
 						</p>
 					</div>
 

@@ -14,11 +14,11 @@ const cors = Cors({
 
 // Helper method to wait for a middleware to execute before continuing
 // And to throw an error when an error happens in a middleware
-function runMiddleware(
+const runMiddleware = (
 	req: NextApiRequest,
 	res: NextApiResponse,
 	fn: Function,
-) {
+) => {
 	return new Promise((resolve, reject) => {
 		fn(req, res, (result: any) => {
 			if (result instanceof Error) {
@@ -28,7 +28,7 @@ function runMiddleware(
 			return resolve(result);
 		});
 	});
-}
+};
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 	await runMiddleware(req, res, cors);
