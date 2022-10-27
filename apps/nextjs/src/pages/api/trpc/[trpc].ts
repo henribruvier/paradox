@@ -13,10 +13,7 @@ const allowCors =
 	(fn: (req: NextApiRequest, res: NextApiResponse) => Promise<void>) =>
 	async (req: NextApiRequest, res: NextApiResponse) => {
 		res.setHeader('Access-Control-Allow-Credentials', 'true');
-		res.setHeader(
-			'Access-Control-Allow-Origin',
-			'http://localhost:3000, http://localhost:8888, http://127.0.0.1:8888',
-		);
+		res.setHeader('Access-Control-Allow-Origin', 'http://localhost:8888');
 		// another common pattern
 		// res.setHeader('Access-Control-Allow-Origin', req.headers.origin);
 		res.setHeader(

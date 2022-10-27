@@ -27,8 +27,7 @@ export default withTM(['@paradox/api', '@paradox/db'])(
 						{key: 'Access-Control-Allow-Credentials', value: 'true'},
 						{
 							key: 'Access-Control-Allow-Origin',
-							value:
-								'http://localhost:3000, http://localhost:8888, http://127.0.0.1:8888',
+							value: ' http://localhost:8888',
 						},
 						{
 							key: 'Access-Control-Allow-Methods',
