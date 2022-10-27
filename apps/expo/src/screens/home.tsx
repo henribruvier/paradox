@@ -6,10 +6,15 @@ import {
 	ScrollView,
 } from 'react-native';
 import {trpc} from '../utils/trpc';
-import React, {useEffect, useRef, useState} from 'react';
-import {Game, Scenario} from '@prisma/client';
+import React, {useEffect, useState} from 'react';
+import {Game, Scenario, User} from '@prisma/client';
 import * as Device from 'expo-device';
 import * as Notifications from 'expo-notifications';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {StackScreenProps} from '@react-navigation/stack';
+import {RootStackParamList} from '../routes/stack';
+
+type Props = StackScreenProps<RootStackParamList, 'Home'>;
 
 export const formatDate = (
 	date: string | Date,
@@ -29,7 +34,7 @@ Notifications.setNotificationHandler({
 	}),
 });
 
-export const HomeScreen = () => {
+export const HomeScreen = ({navigation}: Props) => {
 	const {data: games} = trpc.game.all.useQuery(undefined, {
 		refetchInterval: 1000,
 	});
@@ -38,6 +43,34 @@ export const HomeScreen = () => {
 	const changeStatusMutation = trpc.game.changeStatus.useMutation();
 	const [currentDate, setCurrentDate] = useState(new Date());
 	const [expoPushToken, setExpoPushToken] = useState('');
+	const [user, setUser] = useState<User | null>();
+
+	const getData = async () => {
+		try {
+			const jsonValue = await AsyncStorage.getItem('@user_obj');
+			if (jsonValue !== null) {
+				const user = JSON.parse(jsonValue);
+				const res = trpc.user.one.useQuery({id: user.id});
+				return res;
+			}
+			return null;
+		} catch (e) {
+			console.log(e);
+			return null;
+		}
+	};
+
+	useEffect(() => {
+		if (!user || user.role !== 'admin') {
+			getData().then(res => {
+				if (res?.data) {
+					setUser(() => res.data);
+					return;
+				}
+				navigation.push('Login');
+			});
+		}
+	}, []);
 
 	useEffect(() => {
 		registerForPushNotificationsAsync().then(
