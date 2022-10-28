@@ -20,22 +20,56 @@ export const roomRouter = t.router({
 				where: {
 					NOT: [
 						{
-							games: {
-								some: {
-									startDate: {
-										gte: new Date(input.date.getTime() + input.duration),
-									},
+							OR: [
+								{
+									AND: [
+										{
+											games: {
+												some: {
+													startDate: {
+														lte: new Date(
+															input.date.getTime() + input.duration * 1000,
+														),
+													},
+												},
+											},
+										},
+										{
+											games: {
+												some: {
+													startDate: {
+														gte: input.date,
+													},
+												},
+											},
+										},
+									],
 								},
-							},
-						},
-						{
-							games: {
-								some: {
-									endDate: {
-										lte: input.date,
-									},
+								{
+									AND: [
+										{
+											games: {
+												some: {
+													endDate: {
+														lte: new Date(
+															input.date.getTime() + input.duration * 1000,
+														),
+													},
+												},
+											},
+										},
+										{
+											games: {
+												some: {
+													endDate: {
+														gte: input.date,
+													},
+												},
+											},
+										},
+									],
 								},
-							},
+							],
 						},
 					],
 				},
