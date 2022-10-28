@@ -2,7 +2,7 @@ import {prisma} from '@paradox/db';
 import {GetServerSideProps} from 'next';
 import * as React from 'react';
 import {WebLayout} from '../../components/layout/web-layout';
-import {Scenario, Price} from '@prisma/client';
+import {Scenario, Price, Game} from '@prisma/client';
 import {PencilSquareIcon} from '@heroicons/react/24/solid';
 import {EditScenarioModal} from '../../components/edit-scenario-modal';
 import {Button} from '../../components/button';
@@ -12,11 +12,26 @@ import {unHash} from '../../utils/crypto';
 type PageProps = {
 	scenarios: Scenario[];
 	prices: Price[];
+	games: string;
 };
 
-const Page = ({scenarios, prices}: PageProps) => {
+export const formatDate = (
+	date: string | Date,
+	style?: 'long' | 'medium' | 'short',
+): string =>
+	Intl.DateTimeFormat('fr-FR', {timeStyle: style ? style : 'short'})
+		.format(new Date(date))
+		.split(' ')
+		.map((str, i) =>
+			i === 0 && str[0] ? str[0].toUpperCase() + str.slice(1) : str,
+		)
+		.join(' ');
+
+const Page = ({scenarios, prices, games: _games}: PageProps) => {
 	const [selectedScenario, setSelectedScenario] = React.useState<Scenario>();
 	const [showModal, setShowModal] = React.useState(false);
+
+	const games = JSON.parse(_games) as Game[];
 
 	return (
 		<WebLayout>
@@ -64,6 +79,32 @@ const Page = ({scenarios, prices}: PageProps) => {
 				</Link>
 			</div>
 			<h1 className='font-bold text-3xl text-black mt-10'>Reservation</h1>
+			<div className=' text-black items-center justify-center w-full p-4 max-w-5xl flex-col gap-3 grid grid-cols-6'>
+				<p className='text-center font-bold text-lg'>Id</p>
+				<p className='text-center font-bold text-lg'>Room</p>
+				<p className='text-center font-bold text-lg'>StartDate</p>
+				<p className='text-center font-bold text-lg'>EndDate</p>
+				<p className='text-center font-bold text-lg'>StartedAt</p>
+				<p className='text-center font-bold text-lg'>TimeSpent</p>
+
+				<div className='w-full h-0.5 bg-black col-span-6' />
+				{games?.map(game => (
+					<>
+						<h1 className='text-center'>{game.id}</h1>
+						<p className='text-center font-bold'>{game.roomID}</p>
+						<p className='text-center'>{formatDate(game.startDate)}</p>
+						<p className='text-center'>{formatDate(game.endDate)}</p>
+						<p className='text-center'>
+							{game.startedAt && formatDate(game.startedAt)}
+						</p>
+						<p className='text-center'>
+							{game.timeSpent && Math.round(game.timeSpent / 60)} mn
+						</p>
+
+						<div className='w-full h-0.5 bg-black col-span-6' />
+					</>
+				))}
+			</div>
 		</WebLayout>
 	);
 };
@@ -91,11 +132,14 @@ export const getServerSideProps: GetServerSideProps = async ctx => {
 
 	const scenarios = await prisma.scenario.findMany();
 	const prices = await prisma.price.findMany();
+	const games = await prisma.game.findMany();
+	console.log(games);
 
 	return {
 		props: {
 			scenarios,
 			prices,
+			games: JSON.stringify(games) ?? null,
 		},
 	};
 };
