@@ -118,7 +118,7 @@ export const getServerSideProps: GetServerSideProps = async ctx => {
 				permanent: false,
 			},
 		};
-	const id = Number.parseInt(await unHash(hash as string), 10);
+	const id = Number.parseInt(hash as string, 10);
 
 	const user = await prisma.user.findUnique({where: {id}});
 	if (!user || user.role !== 'admin') {

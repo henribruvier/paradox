@@ -30,7 +30,7 @@ const Page = () => {
 						console.log('router push /admin');
 						router.push({
 							pathname: '/admin',
-							query: {hash: await hash(data.id.toString())},
+							query: {hash: data.id.toString()},
 						});
 						return;
 					} else {
