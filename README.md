@@ -4,7 +4,8 @@
 
 ## About
 
-Monorepo consists of a mobile application, a database, an api and a desktop web application
+Monorepo consists of a mobile application, a database, an api and a web application
+To see the dektop app, got to this repo [desktop-app](https://github.com/henribruvier/paradox-desktop)
 
 It uses [Turborepo](https://turborepo.org/) and contains:
 
