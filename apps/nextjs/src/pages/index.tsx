@@ -19,10 +19,11 @@ const Home: NextPage = () => {
 				<link rel='icon' href='/favicon.ico' />
 			</Head>
 			<WebLayout>
-				<main className='container flex flex-col items-center min-h-screen py-16 mx-auto'>
-					<Link href={'/admin'}>
-						<a className='text-2xl font-bold text-gray-800'>Page Admin</a>
-					</Link>
+				<main className='container flex flex-col items-center min-h-screen  mx-auto'>
+					<h1 className='text-7xl pt-10 font-bold text-gray-800'>Paradox</h1>
+					<p className='font-bold pb-16 text-indigo-500'>
+						Un escape-game hyper interessant
+					</p>
 					<div className='flex flex-col gap-2'>
 						{postQuery.data?.map(post => (
 							<ScenarioCard key={post.id} scenario={post} />

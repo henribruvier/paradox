@@ -7,7 +7,7 @@ type WebLayoutProps = {
 
 export const WebLayout = ({children}: WebLayoutProps) => {
 	return (
-		<div className='bg-gradient-to-b from-black via-blue-900 to-black min-h-screen min-w-full'>
+		<div className='bg-gradient-to-b from-white via-white to-indigo-200 min-h-screen min-w-full'>
 			<Navbar />
 			{children}
 		</div>

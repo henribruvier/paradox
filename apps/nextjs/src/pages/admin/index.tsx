@@ -25,8 +25,8 @@ const Page = ({scenarios, prices}: PageProps) => {
 				isOpen={showModal}
 				closeModal={() => setShowModal(false)}
 			/>
-			<h1 className='font-bold text-3xl text-white'>Scenarios</h1>
-			<div className=' text-white items-center justify-center w-full p-4 max-w-5xl flex-col gap-3 grid grid-cols-7'>
+			<h1 className='font-bold text-3xl text-black'>Scenarios</h1>
+			<div className=' text-black items-center justify-center w-full p-4 max-w-5xl flex-col gap-3 grid grid-cols-7'>
 				<p className='text-center font-bold text-lg'>Titre</p>
 				<p className='text-center font-bold text-lg'>Meilleur temps</p>
 				<p className='text-center font-bold text-lg'>Description</p>
@@ -35,7 +35,7 @@ const Page = ({scenarios, prices}: PageProps) => {
 				<p className='text-center font-bold text-lg'>Min joueurs</p>
 				<p className='text-center font-bold text-lg'>Edit</p>
 
-				<div className='w-full h-0.5 bg-white col-span-7' />
+				<div className='w-full h-0.5 bg-black col-span-7' />
 				{scenarios?.map(scenario => (
 					<>
 						<h1 className='text-center'>{scenario.title}</h1>
@@ -54,7 +54,7 @@ const Page = ({scenarios, prices}: PageProps) => {
 						>
 							<PencilSquareIcon className='w-8 h-8' />
 						</button>
-						<div className='w-full h-0.5 bg-white col-span-7' />
+						<div className='w-full h-0.5 bg-black col-span-7' />
 					</>
 				))}
 			</div>
@@ -63,7 +63,7 @@ const Page = ({scenarios, prices}: PageProps) => {
 					<Button>Nouveau scenario</Button>
 				</Link>
 			</div>
-			<h1 className='font-bold text-3xl text-white mt-10'>Reservation</h1>
+			<h1 className='font-bold text-3xl text-black mt-10'>Reservation</h1>
 		</WebLayout>
 	);
 };

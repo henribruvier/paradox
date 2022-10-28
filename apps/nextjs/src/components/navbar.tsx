@@ -9,6 +9,9 @@ export const Navbar = () => {
 					<Button>Réserver</Button>
 				</a>
 			</Link>
+			<Link href={'/admin'}>
+				<Button>Page Admin</Button>
+			</Link>
 		</div>
 	);
 };

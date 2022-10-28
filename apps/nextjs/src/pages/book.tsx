@@ -15,8 +15,10 @@ type Props = {
 	prices: Price[];
 };
 
-const parseDate = (date: Date, time: string) =>
-	new Date(date.toISOString().split('T')[0] + ' ' + time + ':00');
+const parseDate = (date: Date, time: string) => {
+	console.log(new Date(date.toISOString().split('T')[0] + ' ' + time + ':00'));
+	return new Date(date.toISOString().split('T')[0] + ' ' + time + ':00');
+};
 
 const Book = ({scenarios, prices}: Props) => {
 	const router = useRouter();
@@ -38,13 +40,14 @@ const Book = ({scenarios, prices}: Props) => {
 	const {data: rooms, refetch: getAvailableRooms} =
 		trpc.room.available.useQuery({
 			date: parseDate(startDate, bookingTime),
-			duration: selectedScenario.duration * 60 * 1000,
+			duration: selectedScenario.duration,
 		});
+	console.log(rooms);
 
 	const handleCreate = async () => {
 		if (!rooms?.[0]) return;
 		try {
-			const duration = selectedScenario.duration * 60 * 1000;
+			const duration = selectedScenario.duration * 1000;
 			const date = parseDate(startDate, bookingTime);
 			await mutation.mutateAsync({
 				scenario: selectedScenario?.id,
