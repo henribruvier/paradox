@@ -17,15 +17,17 @@ const Page = () => {
 
 	const onLogin = async () => {
 		try {
-			console.log(loginData);
-
 			const user = await fetch('/api/user', {
 				method: 'POST',
 				body: JSON.stringify(loginData),
 			});
+			console.log('user fetched', user);
 			if (user.status === 200) {
+				console.log('status', user.status);
 				user.json().then(async (data: User) => {
+					console.log('data', data);
 					if (data.role === 'admin') {
+						console.log('router push /admin');
 						router.push({
 							pathname: '/admin',
 							query: {hash: await hash(data.id.toString())},
@@ -40,7 +42,7 @@ const Page = () => {
 			setError('Invalid credentials');
 		} catch (e) {
 			//@ts-expect-error - this is a custom error
-			setError(e.message);
+			setError(e);
 		}
 	};
 	return (
